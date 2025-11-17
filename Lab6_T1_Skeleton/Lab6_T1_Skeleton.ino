@@ -67,10 +67,10 @@ double getPosition() {
 void setup() {
   
 /* pin mode for pins connected with L298N driver  */
-  pinMode(IN1, OUTPUT);  // Set IN1 as an output pin
-  pinMode(IN2, OUTPUT);  // Set IN2 as an output pin
+  pinMode(MOTOR_IN1, OUTPUT);  // Set IN1 as an output pin
+  pinMode(MOTOR_IN2, OUTPUT);  // Set IN2 as an output pin
   
-  pinMode(ENA, INPUT); // Set ENA as an output pin 
+  pinMode(MOTOR_ENA, INPUT); // Set ENA as an output pin 
 
 // encoder A pin mode for interrupt
   pinMode(ENCODER_PINA, INPUT_PULLUP);
