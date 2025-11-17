@@ -2,13 +2,13 @@
 
 //L298N Driver Pin 
 
-#define MOTOR_ENA ?  // Replace the ? with the GPIO pin you selected to connect ENA
-#define MOTOR_IN1 ?  // Replace the ? with the GPIO pin you selected to connect IN2
-#define MOTOR_IN2 ?  // Replace the ? with the GPIO pin you selected to connect IN2
+#define MOTOR_ENA 25  // Replace the ? with the GPIO pin you selected to connect ENA
+#define MOTOR_IN1 26  // Replace the ? with the GPIO pin you selected to connect IN2
+#define MOTOR_IN2 27  // Replace the ? with the GPIO pin you selected to connect IN2
 
 //Encoder Pin 
-#define ENCODER_PINA ? // Replace the ? with the GPIO pin you selected to connect encoder A
-#define ENCODER_PINB ? // Replace the ? with the GPIO pin you selected to connect encoder B
+#define ENCODER_PINA 13 // Replace the ? with the GPIO pin you selected to connect encoder A
+#define ENCODER_PINB 14 // Replace the ? with the GPIO pin you selected to connect encoder B
 
 //Encoder Counter
 volatile long encoderCount = 0; 
@@ -67,16 +67,20 @@ double getPosition() {
 void setup() {
   
 /* pin mode for pins connected with L298N driver  */
-  ??? 
+  pinMode(IN1, OUTPUT);  // Set IN1 as an output pin
+  pinMode(IN2, OUTPUT);  // Set IN2 as an output pin
+  
+  pinMode(ENA, INPUT); // Set ENA as an output pin 
 
 // encoder A pin mode for interrupt
   pinMode(ENCODER_PINA, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(ENCODER_PINA), encoderInterrupt, CHANGE);
 
 /*encoder B pin mode */   
-  ???
+  pinMode(ENCODER_PINB, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(ENCODER_PINB), encoderInterrupt, CHANGE);
 /* set up baud rate  */
-  ???
+  Serial.begin(115200);
 
 }
 
@@ -86,16 +90,18 @@ void loop() {
         command.trim(); // Remove any leading or trailing whitespace
         if (command == "F") {
              /*Forward rotation direction*/
-             ???
+            digitalWrite(IN1, LOW);
+            digitalWrite(IN2, HIGH); 
              /*Set a speed for your motor*/
-            ???
+            analogWrite(ENA, 200);
 
         } 
         else if (command == "B") {
              /*Backward rotation direction*/
-             ???
+            digitalWrite(IN1, HIGH);
+            digitalWrite(IN2, LOW); 
              /*Set a speed for your motor*/
-            ???
+            analogWrite(ENA, 200);
 
         }
         } 
@@ -105,7 +111,7 @@ void loop() {
 
    /* Reset encoder count*/
   if (position > 360 || position < 0) {
-    encoderCount = ?;
+    encoderCount = 0;
   } 
 
 }
